@@ -416,7 +416,7 @@ void * ms_ticker_run(void *arg)
 	int late;
 
 	ms_mutex_lock(&s->lock);
-	
+
 	precision = set_high_prio(s);
 	s->thread_id = ms_thread_self();
 	s->ticks=1;
@@ -424,7 +424,7 @@ void * ms_ticker_run(void *arg)
 
 	while(s->run){
 		uint64_t late_tick_time=0;
-		
+
 		s->ticks++;
 		/*Step 1: run the graphs*/
 		{
@@ -477,6 +477,10 @@ void ms_ticker_set_time_func(MSTicker *ticker, MSTickerTimeFunc func, void *user
 	ticker->orig=func(user_data)-ticker->time;
 
 	ms_message("ms_ticker_set_time_func: ticker's time method updated.");
+}
+
+uint64_t ms_ticker_get_time(MSTicker *ticker) {
+	return ticker->time;
 }
 
 void ms_ticker_set_tick_func(MSTicker *ticker, MSTickerTickFunc func, void *user_data){
